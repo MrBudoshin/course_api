@@ -1,0 +1,14 @@
+{% extends 'courses/base.html' %}
+
+{% block title %}Registration{% endblock %}
+
+
+{% block content %}
+    <h5>User registration</h5>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ form.errors }}
+        <button type="submit">Registrate</button>
+    </form>
+{% endblock %}

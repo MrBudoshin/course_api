@@ -1,0 +1,45 @@
+{% extends "courses/base.html" %}
+{% load static %}
+
+{% block title %}{{ course_detail.name }}{% endblock %}
+
+{% block content %}
+    {{ course_detail.descriptions }}
+    {% if course_detail.image %}
+        <img src="{{ course_detail.image.url }}" alt="img"><br>
+    {% endif %}
+
+    <form action="{% url 'add_subscription' course_detail.pk %}" method="post" name="subscription">
+            <b>Подписка:</b>
+            {% csrf_token %}
+            {{ subs_form.as_p }}
+            <button type="submit">Subscription</button>
+    </form>
+        {% if course_detail.files %}
+            <p><a href="{{ course_detail.files.url }}">Course file</a></p>
+        {% endif %}
+
+        {% for rating in course_detail.course_rating.all %}
+           <p>{{ rating.user_rating }} {{ rating.star }}</p>
+        {% endfor %}
+
+        {% for com in course_detail.course_review.all %}
+            <p>{{ com.user_reviews }} {{ com.comment }} {{ com.crated_at }}</p>
+        {% endfor %}
+        {% if request.user.is_authenticated %}
+
+            <form action="{% url 'add_rating' course_detail.pk %}" method="post" name="rating">
+                <b>Рейтинг:</b>
+                {% csrf_token %}
+                {{ star_form }}
+                <button type="submit">Rating</button>
+            </form>
+
+            <form action="{% url 'add_review' course_detail.pk %}" method="post" class="mt-4" id="formReview">
+                <b>Отзывы:</b>
+                {% csrf_token %}
+                {{ review_form.as_p }}
+                <button type="submit">Review</button>
+            </form>
+        {% endif %}
+{% endblock %}

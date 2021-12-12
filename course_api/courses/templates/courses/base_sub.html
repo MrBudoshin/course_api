@@ -1,0 +1,12 @@
+{% extends "courses/base.html" %}
+{% load static %}
+
+{% block content %}
+    {% if request.user == course_sub.user_sub %}
+        <p>work</p>
+    {% endif %}
+
+    {% for a in course_sub.all %}
+        {{ a.description_feature }}
+    {% endfor %}
+{% endblock %}

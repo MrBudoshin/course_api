@@ -1,0 +1,18 @@
+{% extends "courses/base.html" %}
+
+{% block title %}Курсы{% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'logout' %}">logout</a>
+        {% for course in course_list %}
+            <p><a href="{{ course.pk }}">{{ course.name }}</a></p>
+        {% endfor %}
+    {% else %}
+        <p>Вы не авторизованы</p>
+        <a href="{% url 'login' %}">login</a>
+        <a href="{% url 'registr' %}">Registration</a>
+    {% endif %}
+
+
+{% endblock %}
